@@ -41,6 +41,15 @@ func NewState(header externalapi.MutableBlockHeader) *State {
 	}
 }
 
+func NewStateFromSolution(prePowHash *externalapi.DomainHash, timestamp int64, nonce uint64) *State {
+	return &State{
+		prePowHash: *prePowHash,
+		mat:        *generateMatrix(prePowHash),
+		Timestamp:  timestamp,
+		Nonce:      nonce,
+	}
+}
+
 // CalculateProofOfWorkValue hashes the internal header and returns its big.Int value
 func (state *State) CalculateProofOfWorkValue() *big.Int {
 	// PRE_POW_HASH || TIME || 32 zero byte padding || NONCE
